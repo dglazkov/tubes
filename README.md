@@ -36,7 +36,7 @@ There likely be other places of developing standard practices and patterns (erro
 
 ## Safety
 
-The **tubes** makes this distinction between the **platform** and the **user agent**.
+The **tubes** makes this distinction between the **platform** and the **user agent**:
 
 * The **platform** is the union of all features (APIs, protocols, behaviors, etc.) that is implemented by all vendors
 * The **user agent** is the actor that makes decisions on which subset of the **platform** is acessible to the author.
