@@ -3,7 +3,7 @@ tubes
 
 # Web Platform Plumbing
 
-This is about rationalizing and layering of the web platform APIs that need to reach outside of the box that is commonly called *the rendering engine*. Let's call these APIs **system APIs** for the purpose of this project.
+This is an (in-progress tinkering) about rationalizing and layering of the web platform APIs that need to reach outside of the box that is commonly called *the rendering engine*. Let's call these APIs **system APIs** for the purpose of this project.
 
 For concepts and simplistic introduction, see the [What's Beneath Bedrock?](https://docs.google.com/a/glazkov.com/presentation/d/1jqAjoU22R4A4OF6k0Eg0yru2sHz6ehXUffBhOegGEvA/pub?start=false&loop=false&delayms=3000) presentation, originally given at the [Extensible Web Summit](http://lanyrd.com/2014/extensible-web-summit/).
 
