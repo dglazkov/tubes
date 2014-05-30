@@ -43,7 +43,7 @@ The **tubes** makes this distinction between the **platform** and the **user age
 
 Some of these decisions are made due to implementation deficiencies (when the browser doesn't support a feature, for example), and some are made as a result of negotiating the balance of power between the user and the author (for instance, when the user does not want the author to have information or control, exposed by a feature).
 
-In he same vein, it is up to the **user agent** to  answer the questions on whether a given **pipes layer** API is accessible to the author. One simplistic pattern would be for the **user agent** to install a _valve_ in front of the primordial `MessagePort`: something that looks like the primordial `MessagePort`, but actually has a whitelist of **pipes layer** APIs that are deemed safe, and fails when an "unsafe" API is requested.
+In this vein, it is up to the **user agent** to  answer the questions on whether a given **pipes layer** API is accessible to the author. One simplistic pattern would be for the **user agent** to install a _valve_ in front of the primordial `MessagePort`: something that looks like the primordial `MessagePort`, but actually has a whitelist of **pipes layer** APIs that are deemed safe, and fails when an "unsafe" API is requested.
 
 Some vendors (such as Cordova) would never want to block any of **pipes layer**, and some vendors would want to block most if not all of them. This is okay.
 
