@@ -36,7 +36,7 @@ If a Service Worker is installed and is able to handle the **url** within its sc
 interface ConnectEvent : Event {
   readonly attribute DOMString origin;
   readonly attribute DOMString type;
-  void accept();
+  Promise<MessagePort> accept(); // FIXME: Just serve the port on event?
   void reject();
 };
 ```
@@ -48,7 +48,11 @@ For example, here's how the attempt above to connect to the **socialnetwork.com*
 this.addEventListener('connect', function(e) {
   if (e.origin == 'https://happycustomer.com' && e.type == 'standard/contacts/1.3') {
     // yes, I will be happy to handle your request.
-    e.accept();
+    e.accept().then(function(port) {
+      port.addEventListener('message', function() {
+        // I am listening...
+      });
+    });
   } else {
     // no, you evil basterd.
     e.reject();
