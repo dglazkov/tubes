@@ -13,11 +13,12 @@ For example, here's how I would try to talk to the **socialnetwork.com**'s Servi
 ```js
 var contactsChannel = new MessageChannel();
 var contacts = contactsChannel.port1;
+contacts.addEventListener('message', function() {
+  // ZOMG, contacts!
+});
+
 navigator.connect('https://socialnetwork.com', 'standard/contacts/1.3',
     contactsChannel.port2).then(function() {
-  contacts.addEventListener('message', function() {
-    // ZOMG, contacts!
-  });
   contacts.postMessage('gimmeSomeContacts');
 }, function() {
   console.log('we failed to connect, maybe next time?');
