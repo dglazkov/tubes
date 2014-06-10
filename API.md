@@ -34,6 +34,7 @@ If a Service Worker is installed and is able to handle the **url** within its sc
 [Constructor]
 interface ConnectEvent : Event {
   readonly attribute DOMString origin;
+  readonly attribute DOMString type;
   void accept();
   void reject();
 };
@@ -44,7 +45,7 @@ For example, here's how the attempt above to connect to the **socialnetwork.com*
 ```js
 /// in https://socialnetwork.com Service Worker
 this.addEventListener('connect', function(e) {
-  if (e.data.origin == 'https://happycustomer.com') {
+  if (e.origin == 'https://happycustomer.com' && e.type == 'standard/contacts/1.3') {
     // yes, I will be happy to handle your request.
     e.accept();
   } else {
