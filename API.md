@@ -39,7 +39,7 @@ interface ConnectEvent : Event {
 };
 ```
 
-For example, here's how the attempt above to connect to '''socialnetwork.com''' would be handled:
+For example, here's how the attempt above to connect to the '''socialnetwork.com''' would be handled by its Service Worker:
 
 ```js
 /// in https://socialnetwork.com Service Worker
