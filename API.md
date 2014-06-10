@@ -13,7 +13,7 @@ For example, here's how I would try to talk to the ```socialnetwork.com```'s Ser
 ```js
 var contactsChannel = new MessageChannel();
 var contacts = contactsChannel.port1;
-navigator.connect('http://socialnetwork.com', 'standard/contacts/1.3',
+navigator.connect('https://socialnetwork.com', 'standard/contacts/1.3',
     contactsChannel.port2).then(function() {
   contacts.addEventListener('message', function() {
     // ZOMG, contacts!
@@ -25,3 +25,31 @@ navigator.connect('http://socialnetwork.com', 'standard/contacts/1.3',
 ```
 
 The failure of promise indicates that the connection is not possible. The actual reason (denied, service unavailable) is not communicated back.
+
+## Receving/Handling Connect Requests
+
+If a Service Worker is installed and is able to handle the **url** within its scope, it receives a ```connect``` event that uses the ```ConnectEvent``` interface:
+
+```js
+[Constructor]
+interface ConnectEvent : Event {
+  readonly attribute DOMString origin;
+  void accept();
+  void reject();
+};
+```
+
+For example, here's how the attempt above to connect to '''socialnetwork.com''' would be handled:
+
+```js
+/// in https://socialnetwork.com Service Worker
+this.addEventListener('connect', function(e) {
+  if (e.data.origin == 'https://happycustomer.com') {
+    // yes, I will be happy to handle your request.
+    e.accept();
+  } else {
+    // no, you evil basterd.
+    e.reject();
+  }
+});
+```
