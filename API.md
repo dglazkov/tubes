@@ -8,7 +8,7 @@ The ```navigator.connect``` attempts to establish a connection with a service.
 
 The service **instance** is identified by the ```url``` parameter, and the type of the service is identified by the ```type``` parameter. The ```port``` parameter is a MessagePort that is transferred to the service.
 
-For example, here's how I would try to talk to the ```socialnetwork.com```'s Service Worker:
+For example, here's how I would try to talk to the ***socialnetwork.com***'s Service Worker:
 
 ```js
 var contactsChannel = new MessageChannel();
@@ -39,7 +39,7 @@ interface ConnectEvent : Event {
 };
 ```
 
-For example, here's how the attempt above to connect to the '''socialnetwork.com''' would be handled by its Service Worker:
+For example, here's how the attempt above to connect to the ***socialnetwork.com** would be handled by its Service Worker:
 
 ```js
 /// in https://socialnetwork.com Service Worker
