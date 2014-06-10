@@ -57,7 +57,7 @@ this.addEventListener('connect', function(e) {
 
 ## Web Intents Redux
 
-Because we have an explicit notion of advertising type along with the url, we open the path for enabling user agent-based mediation of connections.
+Because we have an explicit notion of supplying a ```type``` along with the ```url```, we open the path for enabling user agent-based mediation of connections.
 
 For instance, if we make the ```url``` argument optional (or have a ```*``` as a valid value), the caller of ```navigator.connect``` could simply ask for **standard/contacts/1.3** -- without identifying a specific service to handle the connection. The user agent could then choose (or ask user to choose) the most appropriate handler. And thus, the Web Intents are back with the vengeance.
 
