@@ -1,24 +1,20 @@
 ```js
 partial interface Navigator {
-  Promise<any> connect(DOMString url, DOMString type, MessagePort port);
+  Promise<MessagePort> connect(DOMString url);
 };
 ```
 
-The ```navigator.connect``` attempts to establish a connection with a service.
+The ```navigator.connect``` attempts to establish a connection with a service. A service could be represented by a Service Worker.
 
-The service **instance** is identified by the ```url``` parameter, and the type of the service is identified by the ```type``` parameter. The ```port``` parameter is a MessagePort that is transferred to the service.
+The service is identified by the ```url``` parameter. 
 
 For example, here's how I would try to talk to the **socialnetwork.com**'s Service Worker:
 
 ```js
-var contactsChannel = new MessageChannel();
-var contacts = contactsChannel.port1;
-contacts.addEventListener('message', function() {
-  // ZOMG, contacts!
-});
-
-navigator.connect('https://socialnetwork.com', 'standard/contacts/1.3',
-    contactsChannel.port2).then(function() {
+navigator.connect('https://socialnetwork.com').then(function(contacts) {
+  contacts.onmessage = function(e) {
+    // I WUV CONTACTS!!
+  }
   contacts.postMessage('gimmeSomeContacts');
 }, function() {
   console.log('we failed to connect, maybe next time?');
@@ -36,7 +32,7 @@ If a Service Worker is installed and is able to handle the **url** within its sc
 interface ConnectEvent : Event {
   readonly attribute DOMString origin;
   readonly attribute DOMString type;
-  Promise<MessagePort> accept(); // FIXME: Just serve the port on event?
+  Promise<any> accept(MessagePort port);
   void reject();
 };
 ```
@@ -46,12 +42,17 @@ For example, here's how the attempt above to connect to the **socialnetwork.com*
 ```js
 /// in https://socialnetwork.com Service Worker
 this.addEventListener('connect', function(e) {
-  if (e.origin == 'https://happycustomer.com' && e.type == 'standard/contacts/1.3') {
+  if (e.origin == 'https://happycustomer.com') {
     // yes, I will be happy to handle your request.
-    e.accept().then(function(port) {
-      port.addEventListener('message', function() {
-        // I am listening...
-      });
+    var contactsChannel = new MessageChannel();
+    var contacts = contactsChannel.port1;
+    contacts.addEventListener('message', function() {
+      // I am listening...
+    });
+    e.accept(contactsChannel.port2).then() {
+      // you can now post messages and be assured
+      // that they won't be lost.
+      contacts.postMessage('hooray!');
     });
   } else {
     // no, you evil basterd.
@@ -60,10 +61,3 @@ this.addEventListener('connect', function(e) {
 });
 ```
 
-## Web Intents Redux
-
-Because we have an explicit notion of supplying a ```type``` along with the ```url```, we open the path for enabling user agent-based mediation of connections.
-
-For instance, if we make the ```url``` argument optional (or have a ```*``` as a valid value), the caller of ```navigator.connect``` could simply ask for **standard/contacts/1.3** -- without identifying a specific service to handle the connection. The user agent could then choose (or ask user to choose) the most appropriate handler. And thus, the Web Intents are back with the vengeance.
-
-Obviously, we would need more API to enable service providers to advertise types, but this can be done as a natural, incremental step.
