@@ -1,20 +1,23 @@
 ```js
 partial interface Navigator {
-  Promise<MessagePort> connect(DOMString url);
+  Promise<any> connect(DOMString url, MessagePort port);
 };
 ```
 
-The ```navigator.connect``` attempts to establish a connection with a service. A service could be represented by a Service Worker.
+The ```navigator.connect``` attempts to establish a connection with a service. A service could be represented by a Service Worker. The ```port``` parameter is a MessagePort that is transferred to the service.
 
 The service is identified by the ```url``` parameter. 
 
 For example, here's how I would try to talk to the **socialnetwork.com**'s Service Worker:
 
 ```js
-navigator.connect('https://socialnetwork.com').then(function(contacts) {
-  contacts.onmessage = function(e) {
-    // I WUV CONTACTS!!
-  }
+var contactsChannel = new MessageChannel();
+var contacts = contactsChannel.port1;
+contacts.onmessage = function(e) {
+  // I WUV CONTACTS!!
+}
+
+navigator.connect('https://socialnetwork.com', contactsChannel.port2).then(function() {
   contacts.postMessage('gimmeSomeContacts');
 }, function() {
   console.log('we failed to connect, maybe next time?');
@@ -31,7 +34,7 @@ If a Service Worker is installed and is able to handle the **url** within its sc
 [Constructor]
 interface ConnectEvent : Event {
   readonly attribute DOMString origin;
-  Promise<any> accept(MessagePort port);
+  Promise<MessagePort> accept();
   void reject();
 };
 ```
@@ -43,15 +46,11 @@ For example, here's how the attempt above to connect to the **socialnetwork.com*
 this.addEventListener('connect', function(e) {
   if (e.origin == 'https://happycustomer.com') {
     // yes, I will be happy to handle your request.
-    var contactsChannel = new MessageChannel();
-    var contacts = contactsChannel.port1;
-    contacts.addEventListener('message', function() {
-      // I am listening...
-    });
-    e.accept(contactsChannel.port2).then() {
-      // you can now post messages and be assured
-      // that they won't be lost.
-      contacts.postMessage('hooray!');
+    e.accept().then(port) {
+      // port is given to you only after you accept the request.
+      port.onmessage = function() {
+        // I am listening...
+      });
     });
   } else {
     // no, you evil basterd.
