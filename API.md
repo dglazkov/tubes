@@ -31,7 +31,6 @@ If a Service Worker is installed and is able to handle the **url** within its sc
 [Constructor]
 interface ConnectEvent : Event {
   readonly attribute DOMString origin;
-  readonly attribute DOMString type;
   Promise<any> accept(MessagePort port);
   void reject();
 };
