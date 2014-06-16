@@ -34,7 +34,7 @@ If a Service Worker is installed and is able to handle the **url** within its sc
 [Constructor]
 interface ConnectEvent : Event {
   readonly attribute DOMString origin;
-  Promise<MessagePort> accept();
+  MessagePort port;
   void reject();
 };
 ```
@@ -46,11 +46,10 @@ For example, here's how the attempt above to connect to the **socialnetwork.com*
 this.addEventListener('connect', function(e) {
   if (e.origin == 'https://happycustomer.com') {
     // yes, I will be happy to handle your request.
-    e.accept().then(port) {
-      // port is given to you only after you accept the request.
-      port.onmessage = function() {
-        // I am listening...
-      });
+    var port = e.port;
+    // port is given to you only after you accept the request.
+    port.onmessage = function() {
+      // I am listening...
     });
   } else {
     // no, you evil basterd.
