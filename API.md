@@ -16,10 +16,10 @@ var contacts = contactsChannel.port1;
 contacts.onmessage = function(e) {
   // I WUV CONTACTS!!
 }
+// I can start sending messages right away.
+contacts.postMessage('gimmeSomeContacts');
 
-navigator.connect('https://socialnetwork.com', contactsChannel.port2).then(function() {
-  contacts.postMessage('gimmeSomeContacts');
-}, function() {
+navigator.connect('https://socialnetwork.com', contactsChannel.port2).catch(function() {
   console.log('we failed to connect, maybe next time?');
 });
 ```
