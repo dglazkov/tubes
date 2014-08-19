@@ -47,3 +47,6 @@ In this vein, it is up to the **user agent** to  answer the questions on whether
 
 Some vendors (such as Cordova) would never want to block any of **pipes layer**, and some vendors would want to block most if not all of them. This is okay.
 
+## API
+
+See [API.md](API.md) for API explorations.
