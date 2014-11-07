@@ -1,3 +1,5 @@
+More modern proposal here: http://mkruisselbrink.github.io/navigator-connect/
+
 ```js
 partial interface Navigator {
   Promise<any> connect(DOMString url, MessagePort port);
